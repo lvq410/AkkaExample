@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+
+version = '0.0.1'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+File appFolder = project.projectDir
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/java'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+    }
+}
+
+jar {
+    baseName 'akka-example'
+    archiveName 'akka-example.jar'
+    version version
+    manifest {
+        attributes 'Implementation-Title': 'akka-example',
+                   'Implementation-Version': version
+    }
+    from sourceSets.main.allSource
+}
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.7'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile group: 'com.google.guava', name: 'guava', version: '16.0.1'
+    
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.5.14'
+    compile group: 'com.typesafe.akka', name: 'akka-cluster_2.11', version: '2.5.14'
+    compile group: 'com.typesafe.akka', name: 'akka-persistence_2.11', version: '2.5.14'
+    compile group: 'org.fusesource.leveldbjni', name: 'leveldbjni-all', version: '1.8'
+    compile group: 'com.typesafe.akka', name: 'akka-cluster-tools_2.11', version: '2.5.14'
+    compile group: 'com.typesafe.akka', name: 'akka-cluster-sharding_2.11', version: '2.5.14'
+    compile group: 'com.typesafe.akka', name: 'akka-distributed-data_2.11', version: '2.5.14'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+compileJava {
+    options.bootClasspath = "$System.env.JAVA_HOME/jre/lib/rt.jar"
+    options.bootClasspath += "$File.pathSeparator$System.env.JAVA_HOME/jre/lib/jce.jar"
+}
